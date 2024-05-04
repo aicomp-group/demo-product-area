@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="ProductService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="ProductAreaForecasts" EntityType="ProductService.ProductAreaForecasts">
+                    <NavigationPropertyBinding Path="productStyle" Target="ProductStyles"/>
+                    <NavigationPropertyBinding Path="flute" Target="Flutes"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="ProductAreaForecasts"/>
+                </EntitySet>
+                <EntitySet Name="ProductStyles" EntityType="ProductService.ProductStyles">
+                    <NavigationPropertyBinding Path="texts" Target="ProductStyles_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="ProductStyles_texts"/>
+                </EntitySet>
+                <EntitySet Name="Flutes" EntityType="ProductService.Flutes">
+                    <NavigationPropertyBinding Path="texts" Target="Flutes_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Flutes_texts"/>
+                </EntitySet>
+                <EntitySet Name="ProductStyles_texts" EntityType="ProductService.ProductStyles_texts"/>
+                <EntitySet Name="Flutes_texts" EntityType="ProductService.Flutes_texts"/>
+            </EntityContainer>
+            <EntityType Name="ProductAreaForecasts">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="forecastNumber" Type="Edm.Int32"/>
+                <Property Name="length" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="width" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="height" Type="Edm.Decimal" Scale="variable"/>
+                <NavigationProperty Name="productStyle" Type="ProductService.ProductStyles">
+                    <ReferentialConstraint Property="productStyle_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="productStyle_code" Type="Edm.String" MaxLength="4"/>
+                <NavigationProperty Name="flute" Type="ProductService.Flutes">
+                    <ReferentialConstraint Property="flute_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="flute_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="area" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="ProductService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="ProductService.ProductAreaForecasts"/>
+            </EntityType>
+            <EntityType Name="ProductStyles">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="4" Nullable="false"/>
+                <NavigationProperty Name="texts" Type="Collection(ProductService.ProductStyles_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="ProductService.ProductStyles_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Flutes">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <NavigationProperty Name="texts" Type="Collection(ProductService.Flutes_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="ProductService.Flutes_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <EntityType Name="ProductStyles_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="4" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Flutes_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+            </EntityType>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="ProductService.ProductAreaForecasts"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="ProductService.ProductAreaForecasts"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="ProductService.ProductAreaForecasts"/>
+                <ReturnType Type="ProductService.ProductAreaForecasts"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="ProductService.ProductAreaForecasts"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="ProductService.ProductAreaForecasts"/>
+            </Action>
+            <Annotations Target="ProductService.EntityContainer/ProductAreaForecasts">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="ProductService.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="ProductService.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="ProductService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ProductService.ProductAreaForecasts/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations Target="ProductService.ProductAreaForecasts/createdBy">
+                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation Term="Core.Immutable" Bool="true"/>
+                    <Annotation Term="Core.Computed" Bool="true"/>
+                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations Target="ProductService.ProductAreaForecasts/modifiedAt">
+                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation Term="Core.Computed" Bool="true"/>
+                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations Target="ProductService.ProductAreaForecasts/modifiedBy">
+                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation Term="Core.Computed" Bool="true"/>
+                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations Target="ProductService.ProductAreaForecasts/forecastNumber">
+                                        <Annotation Term="Common.Label" String="{i18n>ForecastNumber}"/>
+                                        </Annotations>
+                                        <Annotations Target="ProductService.ProductAreaForecasts/length">
+                                            <Annotation Term="Common.Label" String="{i18n>Length}"/>
+                                            </Annotations>
+                                            <Annotations Target="ProductService.ProductAreaForecasts/width">
+                                                <Annotation Term="Common.Label" String="{i18n>Width}"/>
+                                                </Annotations>
+                                                <Annotations Target="ProductService.ProductAreaForecasts/height">
+                                                    <Annotation Term="Common.Label" String="{i18n>Height}"/>
+                                                    </Annotations>
+                                                    <Annotations Target="ProductService.ProductAreaForecasts/productStyle">
+                                                        <Annotation Term="Common.Label" String="{i18n>ProductStyle}"/>
+                                                        </Annotations>
+                                                        <Annotations Target="ProductService.ProductAreaForecasts/productStyle_code">
+                                                            <Annotation Term="Common.Label" String="{i18n>ProductStyle}"/>
+                                                                <Annotation Term="Common.ValueList">
+                                                                    <Record Type="Common.ValueListType">
+                                                                        <PropertyValue Property="Label" String="{i18n>ProductStyle}"/>
+                                                                            <PropertyValue Property="CollectionPath" String="ProductStyles"/>
+                                                                            <PropertyValue Property="Parameters">
+                                                                                <Collection>
+                                                                                    <Record Type="Common.ValueListParameterInOut">
+                                                                                        <PropertyValue Property="LocalDataProperty" PropertyPath="productStyle_code"/>
+                                                                                        <PropertyValue Property="ValueListProperty" String="code"/>
+                                                                                    </Record>
+                                                                                    <Record Type="Common.ValueListParameterDisplayOnly">
+                                                                                        <PropertyValue Property="ValueListProperty" String="name"/>
+                                                                                    </Record>
+                                                                                </Collection>
+                                                                            </PropertyValue>
+                                                                        </Record>
+                                                                    </Annotation>
+                                                                </Annotations>
+                                                                <Annotations Target="ProductService.ProductAreaForecasts/flute">
+                                                                    <Annotation Term="Common.Label" String="{i18n>Flute}"/>
+                                                                    </Annotations>
+                                                                    <Annotations Target="ProductService.ProductAreaForecasts/flute_code">
+                                                                        <Annotation Term="Common.Label" String="{i18n>Flute}"/>
+                                                                            <Annotation Term="Common.ValueList">
+                                                                                <Record Type="Common.ValueListType">
+                                                                                    <PropertyValue Property="Label" String="{i18n>Flute}"/>
+                                                                                        <PropertyValue Property="CollectionPath" String="Flutes"/>
+                                                                                        <PropertyValue Property="Parameters">
+                                                                                            <Collection>
+                                                                                                <Record Type="Common.ValueListParameterInOut">
+                                                                                                    <PropertyValue Property="LocalDataProperty" PropertyPath="flute_code"/>
+                                                                                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                                                                                </Record>
+                                                                                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                                                                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                                                                                </Record>
+                                                                                            </Collection>
+                                                                                        </PropertyValue>
+                                                                                    </Record>
+                                                                                </Annotation>
+                                                                            </Annotations>
+                                                                            <Annotations Target="ProductService.ProductAreaForecasts/area">
+                                                                                <Annotation Term="Common.Label" String="{i18n>Area}"/>
+                                                                                </Annotations>
+                                                                                <Annotations Target="ProductService.ProductAreaForecasts/IsActiveEntity">
+                                                                                    <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                </Annotations>
+                                                                                <Annotations Target="ProductService.ProductAreaForecasts/HasActiveEntity">
+                                                                                    <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                </Annotations>
+                                                                                <Annotations Target="ProductService.ProductAreaForecasts/HasDraftEntity">
+                                                                                    <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                </Annotations>
+                                                                                <Annotations Target="ProductService.ProductAreaForecasts/DraftAdministrativeData">
+                                                                                    <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                </Annotations>
+                                                                                <Annotations Target="ProductService.ProductStyles">
+                                                                                    <Annotation Term="UI.Identification">
+                                                                                        <Collection>
+                                                                                            <Record Type="UI.DataField">
+                                                                                                <PropertyValue Property="Value" Path="name"/>
+                                                                                            </Record>
+                                                                                        </Collection>
+                                                                                    </Annotation>
+                                                                                </Annotations>
+                                                                                <Annotations Target="ProductService.ProductStyles/name">
+                                                                                    <Annotation Term="Common.Label" String="{i18n>Name}"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="ProductService.ProductStyles/descr">
+                                                                                        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations Target="ProductService.ProductStyles/code">
+                                                                                            <Annotation Term="Common.Text" Path="name"/>
+                                                                                            <Annotation Term="Common.Label" String="{i18n>ProductStyle}"/>
+                                                                                            </Annotations>
+                                                                                            <Annotations Target="ProductService.Flutes">
+                                                                                                <Annotation Term="UI.Identification">
+                                                                                                    <Collection>
+                                                                                                        <Record Type="UI.DataField">
+                                                                                                            <PropertyValue Property="Value" Path="name"/>
+                                                                                                        </Record>
+                                                                                                    </Collection>
+                                                                                                </Annotation>
+                                                                                            </Annotations>
+                                                                                            <Annotations Target="ProductService.Flutes/name">
+                                                                                                <Annotation Term="Common.Label" String="{i18n>Name}"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations Target="ProductService.Flutes/descr">
+                                                                                                    <Annotation Term="Common.Label" String="{i18n>Description}"/>
+                                                                                                    </Annotations>
+                                                                                                    <Annotations Target="ProductService.Flutes/code">
+                                                                                                        <Annotation Term="Common.Text" Path="name"/>
+                                                                                                        <Annotation Term="Common.Label" String="{i18n>Flute}"/>
+                                                                                                        </Annotations>
+                                                                                                        <Annotations Target="ProductService.DraftAdministrativeData">
+                                                                                                            <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="ProductService.DraftAdministrativeData/DraftUUID">
+                                                                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+                                                                                                                </Annotations>
+                                                                                                                <Annotations Target="ProductService.DraftAdministrativeData/CreationDateTime">
+                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+                                                                                                                    </Annotations>
+                                                                                                                    <Annotations Target="ProductService.DraftAdministrativeData/CreatedByUser">
+                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+                                                                                                                        </Annotations>
+                                                                                                                        <Annotations Target="ProductService.DraftAdministrativeData/DraftIsCreatedByMe">
+                                                                                                                            <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+                                                                                                                            </Annotations>
+                                                                                                                            <Annotations Target="ProductService.DraftAdministrativeData/LastChangeDateTime">
+                                                                                                                                <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+                                                                                                                                </Annotations>
+                                                                                                                                <Annotations Target="ProductService.DraftAdministrativeData/LastChangedByUser">
+                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="ProductService.DraftAdministrativeData/InProcessByUser">
+                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+                                                                                                                                        </Annotations>
+                                                                                                                                        <Annotations Target="ProductService.DraftAdministrativeData/DraftIsProcessedByMe">
+                                                                                                                                            <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+                                                                                                                                            </Annotations>
+                                                                                                                                            <Annotations Target="ProductService.ProductStyles_texts/locale">
+                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+                                                                                                                                                </Annotations>
+                                                                                                                                                <Annotations Target="ProductService.ProductStyles_texts/name">
+                                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Name}"/>
+                                                                                                                                                    </Annotations>
+                                                                                                                                                    <Annotations Target="ProductService.ProductStyles_texts/descr">
+                                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+                                                                                                                                                        </Annotations>
+                                                                                                                                                        <Annotations Target="ProductService.ProductStyles_texts/code">
+                                                                                                                                                            <Annotation Term="Common.Text" Path="name"/>
+                                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>ProductStyle}"/>
+                                                                                                                                                            </Annotations>
+                                                                                                                                                            <Annotations Target="ProductService.Flutes_texts/locale">
+                                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+                                                                                                                                                                </Annotations>
+                                                                                                                                                                <Annotations Target="ProductService.Flutes_texts/name">
+                                                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Name}"/>
+                                                                                                                                                                    </Annotations>
+                                                                                                                                                                    <Annotations Target="ProductService.Flutes_texts/descr">
+                                                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+                                                                                                                                                                        </Annotations>
+                                                                                                                                                                        <Annotations Target="ProductService.Flutes_texts/code">
+                                                                                                                                                                            <Annotation Term="Common.Text" Path="name"/>
+                                                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Flute}"/>
+                                                                                                                                                                            </Annotations>
+                                                                                                                                                                        </Schema>
+                                                                                                                                                                    </edmx:DataServices>
+                                                                                                                                                                </edmx:Edmx>

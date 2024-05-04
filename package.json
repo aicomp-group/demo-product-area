@@ -1,0 +1,48 @@
+{
+  "name": "demo-product-area",
+  "version": "1.0.0",
+  "description": "Product Area Forecasts App",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^3.15.0",
+    "@sap-cloud-sdk/http-client": "^3.15.0",
+    "@sap-cloud-sdk/resilience": "^3.15.0",
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.120.8"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-product-area-forecasts-app": "cds watch --open product-area-forecasts-app/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "sapux": [
+    "app/product-area-forecasts-app"
+  ],
+  "cds": {
+    "requires": {
+      "MLRuntimeService": {
+        "kind": "odata",
+        "model": "srv/external/MLRuntimeService",
+        "[production]": {
+          "credentials": {
+            "destination": "aic-demo-product-area-ml-runtime-api",
+            "forwardAuthToken": true
+          }
+        }
+      },
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
+      }
+    }
+  }
+}

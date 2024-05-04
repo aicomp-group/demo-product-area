@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="MLRuntimeService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="ModelTypesList" EntityType="MLRuntimeService.ModelTypesList"/>
+        <EntitySet Name="SystemsList" EntityType="MLRuntimeService.SystemsList"/>
+        <FunctionImport Name="healthCheck" Function="MLRuntimeService.healthCheck"/>
+        <ActionImport Name="getRequiredInputFeatures" Action="MLRuntimeService.getRequiredInputFeatures"/>
+        <ActionImport Name="queryModel" Action="MLRuntimeService.queryModel"/>
+        <ActionImport Name="getValidModelType" Action="MLRuntimeService.getValidModelType"/>
+      </EntityContainer>
+      <EntityType Name="ModelTypesList">
+        <Key>
+          <PropertyRef Name="modelType"/>
+        </Key>
+        <Property Name="modelType" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="description" Type="Edm.String" MaxLength="60"/>
+      </EntityType>
+      <EntityType Name="SystemsList">
+        <Key>
+          <PropertyRef Name="system"/>
+        </Key>
+        <Property Name="system" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="description" Type="Edm.String" MaxLength="60"/>
+      </EntityType>
+      <ComplexType Name="param_MLRuntimeService_getRequiredInputFeatures_context">
+        <Property Name="contextType" Type="Edm.String" MaxLength="30"/>
+        <Property Name="keys" Type="Collection(MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context_keys)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="param_MLRuntimeService_getRequiredInputFeatures_context_keys">
+        <Property Name="keyName" Type="Edm.String" MaxLength="20"/>
+        <Property Name="keyValue" Type="Edm.String" MaxLength="255"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_queryModel">
+        <Property Name="modelType" Type="Edm.String" MaxLength="30"/>
+        <Property Name="context" Type="MLRuntimeService.return_MLRuntimeService_queryModel_context"/>
+        <Property Name="routes" Type="Collection(MLRuntimeService.return_MLRuntimeService_queryModel_routes)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_queryModel_context">
+        <Property Name="contextType" Type="Edm.String" MaxLength="30"/>
+        <Property Name="keys" Type="Collection(MLRuntimeService.return_MLRuntimeService_queryModel_context_keys)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_queryModel_context_keys">
+        <Property Name="keyName" Type="Edm.String" MaxLength="20"/>
+        <Property Name="keyValue" Type="Edm.String" MaxLength="255"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_queryModel_routes">
+        <Property Name="routeID" Type="Edm.String" MaxLength="255"/>
+        <Property Name="features" Type="Collection(MLRuntimeService.return_MLRuntimeService_queryModel_routes_features)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_queryModel_routes_features">
+        <Property Name="featureName" Type="Edm.String" MaxLength="30"/>
+        <Property Name="featureValue" Type="Edm.String" MaxLength="255"/>
+      </ComplexType>
+      <ComplexType Name="param_MLRuntimeService_queryModel_queries">
+        <Property Name="modelType" Type="Edm.String" MaxLength="30"/>
+        <Property Name="context" Type="MLRuntimeService.param_MLRuntimeService_queryModel_queries_context"/>
+        <Property Name="routes" Type="Collection(MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="param_MLRuntimeService_queryModel_queries_context">
+        <Property Name="contextType" Type="Edm.String" MaxLength="30"/>
+        <Property Name="keys" Type="Collection(MLRuntimeService.param_MLRuntimeService_queryModel_queries_context_keys)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="param_MLRuntimeService_queryModel_queries_context_keys">
+        <Property Name="keyName" Type="Edm.String" MaxLength="20"/>
+        <Property Name="keyValue" Type="Edm.String" MaxLength="255"/>
+      </ComplexType>
+      <ComplexType Name="param_MLRuntimeService_queryModel_queries_routes">
+        <Property Name="routeID" Type="Edm.String" MaxLength="255"/>
+        <Property Name="features" Type="Collection(MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes_features)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="param_MLRuntimeService_queryModel_queries_routes_features">
+        <Property Name="featureName" Type="Edm.String" MaxLength="30"/>
+        <Property Name="featureValue" Type="Edm.String" MaxLength="255"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_getValidModelType">
+        <Property Name="modelTypeID" Type="Edm.Guid"/>
+        <Property Name="modelType" Type="Edm.String" MaxLength="30"/>
+        <Property Name="description" Type="Edm.String" MaxLength="60"/>
+        <Property Name="version" Type="Edm.Int32"/>
+        <Property Name="validFrom" Type="Edm.Date"/>
+        <Property Name="features" Type="Collection(MLRuntimeService.return_MLRuntimeService_getValidModelType_features)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="return_MLRuntimeService_getValidModelType_features">
+        <Property Name="feature" Type="Edm.String" MaxLength="30"/>
+        <Property Name="featureMode" Type="Edm.String" MaxLength="1"/>
+        <Property Name="featureType" Type="Edm.String" MaxLength="6"/>
+        <Property Name="baseline" Type="Edm.String" MaxLength="30"/>
+      </ComplexType>
+      <Function Name="healthCheck" IsBound="false" IsComposable="false">
+        <ReturnType Type="Edm.String"/>
+      </Function>
+      <Action Name="getRequiredInputFeatures" IsBound="false">
+        <Parameter Name="modelType" Type="Edm.String" MaxLength="30"/>
+        <Parameter Name="system" Type="Edm.String" MaxLength="30"/>
+        <Parameter Name="asOfDate" Type="Edm.Date"/>
+        <Parameter Name="context" Type="MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context"/>
+        <ReturnType Type="Collection(Edm.String)" MaxLength="30" Nullable="false"/>
+      </Action>
+      <Action Name="queryModel" IsBound="false">
+        <Parameter Name="system" Type="Edm.String" MaxLength="30"/>
+        <Parameter Name="queryDate" Type="Edm.Date"/>
+        <Parameter Name="queries" Type="Collection(MLRuntimeService.param_MLRuntimeService_queryModel_queries)" Nullable="false"/>
+        <ReturnType Type="Collection(MLRuntimeService.return_MLRuntimeService_queryModel)" Nullable="false"/>
+      </Action>
+      <Action Name="getValidModelType" IsBound="false">
+        <Parameter Name="modelType" Type="Edm.String" MaxLength="30"/>
+        <Parameter Name="asOfDate" Type="Edm.Date"/>
+        <ReturnType Type="MLRuntimeService.return_MLRuntimeService_getValidModelType"/>
+      </Action>
+      <Annotations Target="MLRuntimeService.EntityContainer/ModelTypesList">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.ModelTypesList/modelType">
+        <Annotation Term="Common.Label" String="{i18n>ModelType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.ModelTypesList/description">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.EntityContainer/SystemsList">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.SystemsList/system">
+        <Annotation Term="Common.Label" String="{i18n>System}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.SystemsList/description">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.getRequiredInputFeatures()/modelType">
+        <Annotation Term="Common.Label" String="{i18n>ModelType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.getRequiredInputFeatures()/system">
+        <Annotation Term="Common.Label" String="{i18n>System}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.queryModel()/system">
+        <Annotation Term="Common.Label" String="{i18n>System}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.getValidModelType()/modelType">
+        <Annotation Term="Common.Label" String="{i18n>ModelType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context/contextType">
+        <Annotation Term="Common.Label" String="{i18n>ContextType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context_keys/keyName">
+        <Annotation Term="Common.Label" String="{i18n>KeyName}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context_keys/keyValue">
+        <Annotation Term="Common.Label" String="{i18n>KeyValue}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel/modelType">
+        <Annotation Term="Common.Label" String="{i18n>ModelType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel_context/contextType">
+        <Annotation Term="Common.Label" String="{i18n>ContextType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel_context_keys/keyName">
+        <Annotation Term="Common.Label" String="{i18n>KeyName}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel_context_keys/keyValue">
+        <Annotation Term="Common.Label" String="{i18n>KeyValue}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel_routes/routeID">
+        <Annotation Term="Common.Label" String="{i18n>RouteID}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel_routes_features/featureName">
+        <Annotation Term="Common.Label" String="{i18n>Feature}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_queryModel_routes_features/featureValue">
+        <Annotation Term="Common.Label" String="{i18n>FeatureValue}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries/modelType">
+        <Annotation Term="Common.Label" String="{i18n>ModelType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries_context/contextType">
+        <Annotation Term="Common.Label" String="{i18n>ContextType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries_context_keys/keyName">
+        <Annotation Term="Common.Label" String="{i18n>KeyName}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries_context_keys/keyValue">
+        <Annotation Term="Common.Label" String="{i18n>KeyValue}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes/routeID">
+        <Annotation Term="Common.Label" String="{i18n>RouteID}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes_features/featureName">
+        <Annotation Term="Common.Label" String="{i18n>Feature}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes_features/featureValue">
+        <Annotation Term="Common.Label" String="{i18n>FeatureValue}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType/modelType">
+        <Annotation Term="Common.Label" String="{i18n>ModelType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType/description">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType/version">
+        <Annotation Term="Common.Label" String="{i18n>Version}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType/validFrom">
+        <Annotation Term="Common.Label" String="{i18n>ValidFrom}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType_features/feature">
+        <Annotation Term="Common.Label" String="{i18n>Feature}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType_features/featureMode">
+        <Annotation Term="Common.Label" String="{i18n>FeatureMode}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType_features/featureType">
+        <Annotation Term="Common.Label" String="{i18n>FeatureType}"/>
+      </Annotations>
+      <Annotations Target="MLRuntimeService.return_MLRuntimeService_getValidModelType_features/baseline">
+        <Annotation Term="Common.Label" String="{i18n>Baseline}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

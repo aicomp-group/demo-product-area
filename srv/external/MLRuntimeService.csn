@@ -1,0 +1,399 @@
+{
+ "meta": {
+  "creator": "cds-dk 7.3.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "MLRuntimeService.healthCheck": {
+   "kind": "function",
+   "@cds.external": true,
+   "returns": {
+    "type": "cds.LargeString"
+   }
+  },
+  "MLRuntimeService.getRequiredInputFeatures": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "modelType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ModelType}"
+    },
+    "system": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>System}"
+    },
+    "asOfDate": {
+     "type": "cds.Date"
+    },
+    "context": {
+     "type": "MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context"
+    }
+   },
+   "returns": {
+    "items": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true
+    }
+   }
+  },
+  "MLRuntimeService.queryModel": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "system": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>System}"
+    },
+    "queryDate": {
+     "type": "cds.Date"
+    },
+    "queries": {
+     "items": {
+      "type": "MLRuntimeService.param_MLRuntimeService_queryModel_queries",
+      "notNull": true
+     }
+    }
+   },
+   "returns": {
+    "items": {
+     "type": "MLRuntimeService.return_MLRuntimeService_queryModel",
+     "notNull": true
+    }
+   }
+  },
+  "MLRuntimeService.getValidModelType": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "modelType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ModelType}"
+    },
+    "asOfDate": {
+     "type": "cds.Date"
+    }
+   },
+   "returns": {
+    "type": "MLRuntimeService.return_MLRuntimeService_getValidModelType"
+   }
+  },
+  "MLRuntimeService.ModelTypesList": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "modelType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "{i18n>ModelType}"
+    },
+    "description": {
+     "type": "cds.String",
+     "length": 60,
+     "@Common.Label": "{i18n>Description}"
+    }
+   },
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.UpdateRestrictions.Updatable": false
+  },
+  "MLRuntimeService.SystemsList": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "system": {
+     "key": true,
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "{i18n>System}"
+    },
+    "description": {
+     "type": "cds.String",
+     "length": 60,
+     "@Common.Label": "{i18n>Description}"
+    }
+   },
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.UpdateRestrictions.Updatable": false
+  },
+  "MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "contextType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ContextType}"
+    },
+    "keys": {
+     "items": {
+      "type": "MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context_keys",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.param_MLRuntimeService_getRequiredInputFeatures_context_keys": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "keyName": {
+     "type": "cds.String",
+     "length": 20,
+     "@Common.Label": "{i18n>KeyName}"
+    },
+    "keyValue": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>KeyValue}"
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_queryModel": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "modelType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ModelType}"
+    },
+    "context": {
+     "type": "MLRuntimeService.return_MLRuntimeService_queryModel_context"
+    },
+    "routes": {
+     "items": {
+      "type": "MLRuntimeService.return_MLRuntimeService_queryModel_routes",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_queryModel_context": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "contextType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ContextType}"
+    },
+    "keys": {
+     "items": {
+      "type": "MLRuntimeService.return_MLRuntimeService_queryModel_context_keys",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_queryModel_context_keys": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "keyName": {
+     "type": "cds.String",
+     "length": 20,
+     "@Common.Label": "{i18n>KeyName}"
+    },
+    "keyValue": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>KeyValue}"
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_queryModel_routes": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "routeID": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>RouteID}"
+    },
+    "features": {
+     "items": {
+      "type": "MLRuntimeService.return_MLRuntimeService_queryModel_routes_features",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_queryModel_routes_features": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "featureName": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>Feature}"
+    },
+    "featureValue": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>FeatureValue}"
+    }
+   }
+  },
+  "MLRuntimeService.param_MLRuntimeService_queryModel_queries": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "modelType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ModelType}"
+    },
+    "context": {
+     "type": "MLRuntimeService.param_MLRuntimeService_queryModel_queries_context"
+    },
+    "routes": {
+     "items": {
+      "type": "MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.param_MLRuntimeService_queryModel_queries_context": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "contextType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ContextType}"
+    },
+    "keys": {
+     "items": {
+      "type": "MLRuntimeService.param_MLRuntimeService_queryModel_queries_context_keys",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.param_MLRuntimeService_queryModel_queries_context_keys": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "keyName": {
+     "type": "cds.String",
+     "length": 20,
+     "@Common.Label": "{i18n>KeyName}"
+    },
+    "keyValue": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>KeyValue}"
+    }
+   }
+  },
+  "MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "routeID": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>RouteID}"
+    },
+    "features": {
+     "items": {
+      "type": "MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes_features",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.param_MLRuntimeService_queryModel_queries_routes_features": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "featureName": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>Feature}"
+    },
+    "featureValue": {
+     "type": "cds.String",
+     "length": 255,
+     "@Common.Label": "{i18n>FeatureValue}"
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_getValidModelType": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "modelTypeID": {
+     "type": "cds.UUID"
+    },
+    "modelType": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>ModelType}"
+    },
+    "description": {
+     "type": "cds.String",
+     "length": 60,
+     "@Common.Label": "{i18n>Description}"
+    },
+    "version": {
+     "type": "cds.Integer",
+     "@Common.Label": "{i18n>Version}"
+    },
+    "validFrom": {
+     "type": "cds.Date",
+     "@Common.Label": "{i18n>ValidFrom}"
+    },
+    "features": {
+     "items": {
+      "type": "MLRuntimeService.return_MLRuntimeService_getValidModelType_features",
+      "notNull": true
+     }
+    }
+   }
+  },
+  "MLRuntimeService.return_MLRuntimeService_getValidModelType_features": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "feature": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>Feature}"
+    },
+    "featureMode": {
+     "type": "cds.String",
+     "length": 1,
+     "@Common.Label": "{i18n>FeatureMode}"
+    },
+    "featureType": {
+     "type": "cds.String",
+     "length": 6,
+     "@Common.Label": "{i18n>FeatureType}"
+    },
+    "baseline": {
+     "type": "cds.String",
+     "length": 30,
+     "@Common.Label": "{i18n>Baseline}"
+    }
+   }
+  },
+  "MLRuntimeService": {
+   "kind": "service",
+   "@cds.external": true
+  }
+ }
+}
